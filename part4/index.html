@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Simple vanilla JavaScript todo application with localStorage">
+    <title>Todo App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>My Todos</h1>
+            <p class="header-subtitle">A simple, persistent todo list</p>
+        </header>
+
+        <main class="main">
+            <!-- Input Section -->
+            <form class="input-section" id="todoForm">
+                <div class="input-group">
+                    <input
+                        type="text"
+                        id="todoInput"
+                        class="todo-input"
+                        placeholder="Add a new todo..."
+                        aria-label="Add new todo"
+                        autocomplete="off"
+                    >
+                    <button type="submit" class="add-btn" aria-label="Add todo">Add</button>
+                </div>
+            </form>
+
+            <!-- Stats Section -->
+            <div class="stats">
+                <span class="stat-item">
+                    <span class="stat-label">Total:</span>
+                    <span class="stat-value" id="totalCount">0</span>
+                </span>
+                <span class="stat-item">
+                    <span class="stat-label">Active:</span>
+                    <span class="stat-value" id="activeCount">0</span>
+                </span>
+                <span class="stat-item">
+                    <span class="stat-label">Completed:</span>
+                    <span class="stat-value" id="completedCount">0</span>
+                </span>
+            </div>
+
+            <!-- Todos List -->
+            <div class="todos-section">
+                <ul class="todos-list" id="todosList" role="list">
+                    <!-- Todos will be inserted here by JavaScript -->
+                </ul>
+
+                <!-- Empty State -->
+                <div class="empty-state" id="emptyState">
+                    <p class="empty-state-text">No todos yet. Add one to get started!</p>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="actions" id="actions" style="display: none;">
+                <button class="btn btn-secondary" id="clearCompletedBtn" aria-label="Clear completed todos">
+                    Clear Completed
+                </button>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>Your todos are saved automatically in your browser</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

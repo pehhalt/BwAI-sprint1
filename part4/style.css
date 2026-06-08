@@ -1,0 +1,410 @@
+/* Todo App Styles */
+:root {
+    --color-primary: #2c3e50;
+    --color-secondary: #3498db;
+    --color-success: #27ae60;
+    --color-danger: #e74c3c;
+    --color-light: #ecf0f1;
+    --color-lighter: #f8f9fa;
+    --color-border: #bdc3c7;
+    --color-text: #2c3e50;
+    --color-text-light: #7f8c8d;
+    --color-white: #ffffff;
+
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 1.5rem;
+    --spacing-lg: 2rem;
+    --spacing-xl: 3rem;
+
+    --font-size-base: 16px;
+    --font-size-sm: 14px;
+    --font-size-md: 18px;
+    --font-size-lg: 20px;
+    --font-size-xl: 24px;
+
+    --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --line-height: 1.6;
+    --border-radius: 6px;
+    --transition: all 0.2s ease;
+}
+
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+    line-height: var(--line-height);
+    color: var(--color-text);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: var(--spacing-md);
+}
+
+/* Container */
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: var(--color-white);
+    border-radius: var(--border-radius);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Header */
+.header {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    padding: var(--spacing-xl) var(--spacing-lg);
+    text-align: center;
+}
+
+.header h1 {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--spacing-sm);
+    font-weight: 700;
+}
+
+.header-subtitle {
+    font-size: var(--font-size-sm);
+    opacity: 0.9;
+    margin-bottom: 0;
+}
+
+/* Main Content */
+.main {
+    flex: 1;
+    padding: var(--spacing-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+/* Input Section */
+.input-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.input-group {
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+.todo-input {
+    flex: 1;
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: var(--font-size-base);
+    border: 2px solid var(--color-border);
+    border-radius: var(--border-radius);
+    font-family: var(--font-family);
+    transition: var(--transition);
+}
+
+.todo-input:focus {
+    outline: none;
+    border-color: var(--color-secondary);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.todo-input::placeholder {
+    color: var(--color-text-light);
+}
+
+.add-btn {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    color: var(--color-white);
+    background-color: var(--color-secondary);
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: var(--font-family);
+}
+
+.add-btn:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+}
+
+.add-btn:active {
+    transform: translateY(0);
+}
+
+/* Stats Section */
+.stats {
+    display: flex;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    background-color: var(--color-lighter);
+    border-radius: var(--border-radius);
+    justify-content: center;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.stat-label {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    font-weight: 500;
+}
+
+.stat-value {
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+/* Todos Section */
+.todos-section {
+    flex: 1;
+    position: relative;
+}
+
+.todos-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+/* Todo Item */
+.todo-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    background-color: var(--color-lighter);
+    border-radius: var(--border-radius);
+    border-left: 4px solid var(--color-secondary);
+    transition: var(--transition);
+    animation: slideIn 0.2s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.todo-item:hover {
+    background-color: #f0f3f7;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.todo-item.completed {
+    border-left-color: var(--color-success);
+}
+
+.todo-item.completed .todo-text {
+    text-decoration: line-through;
+    color: var(--color-text-light);
+}
+
+/* Checkbox */
+.todo-checkbox {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    accent-color: var(--color-secondary);
+    flex-shrink: 0;
+}
+
+/* Todo Text */
+.todo-text {
+    flex: 1;
+    font-size: var(--font-size-base);
+    color: var(--color-text);
+    word-break: break-word;
+}
+
+/* Delete Button */
+.delete-btn {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    color: var(--color-white);
+    background-color: var(--color-danger);
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: var(--font-family);
+    flex-shrink: 0;
+}
+
+.delete-btn:hover {
+    background-color: #c0392b;
+    transform: scale(1.05);
+}
+
+.delete-btn:active {
+    transform: scale(0.95);
+}
+
+/* Empty State */
+.empty-state {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-xl) var(--spacing-md);
+    color: var(--color-text-light);
+    text-align: center;
+}
+
+.empty-state-text {
+    font-size: var(--font-size-md);
+    margin-bottom: 0;
+}
+
+/* Actions */
+.actions {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-md);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--color-border);
+}
+
+.btn {
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: var(--font-family);
+}
+
+.btn-secondary {
+    color: var(--color-white);
+    background-color: var(--color-text-light);
+    flex: 1;
+}
+
+.btn-secondary:hover {
+    background-color: #6c7a89;
+    transform: translateY(-2px);
+}
+
+/* Footer */
+.footer {
+    background-color: var(--color-lighter);
+    padding: var(--spacing-md) var(--spacing-lg);
+    text-align: center;
+    border-top: 1px solid var(--color-border);
+}
+
+.footer p {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    margin-bottom: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+    body {
+        padding: var(--spacing-sm);
+    }
+
+    .container {
+        min-height: auto;
+    }
+
+    .header {
+        padding: var(--spacing-lg) var(--spacing-md);
+    }
+
+    .header h1 {
+        font-size: var(--font-size-lg);
+    }
+
+    .main {
+        padding: var(--spacing-md);
+        gap: var(--spacing-md);
+    }
+
+    .input-group {
+        flex-direction: column;
+    }
+
+    .add-btn {
+        width: 100%;
+    }
+
+    .stats {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+
+    .stat-item {
+        justify-content: space-between;
+    }
+
+    .todo-item {
+        padding: var(--spacing-md) var(--spacing-sm);
+    }
+
+    .todo-text {
+        font-size: var(--font-size-sm);
+    }
+
+    .delete-btn {
+        padding: var(--spacing-xs) var(--spacing-sm);
+        font-size: var(--font-size-sm);
+    }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Print Styles */
+@media print {
+    body {
+        background: white;
+        padding: 0;
+    }
+
+    .container {
+        box-shadow: none;
+        max-width: 100%;
+    }
+
+    .header,
+    .footer,
+    .actions,
+    .input-section {
+        display: none;
+    }
+}
