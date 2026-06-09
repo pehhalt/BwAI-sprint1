@@ -64,13 +64,13 @@ A comprehensive sprint showcasing foundational web development projects built wi
 
 ---
 
-## Part 6 - Next.js App Exploration
+## Part 6 & 7 - Next.js App Exploration
 
-Part 6 covers learning Next.js fundamentals with the App Router, which provides the foundation for Part 7.
+Part 6 covers learning Next.js fundamentals with the App Router. Part 7 builds upon this with a Next.js application.
 
 ---
 
-## SprintProject - DocMan (Parts 6-7)
+## SprintProject - DocMan
 
 **Overview:** A complete, production-ready document management application demonstrating modern full-stack development with Next.js.
 
@@ -146,11 +146,13 @@ This sprint demonstrates a complete learning progression:
 1. **Part 2** - Foundation: Research and profile documentation
 2. **Part 3** - Static sites: Portfolio with vanilla HTML/CSS/JS
 3. **Part 4** - Interactive applications: Todo app with persistence
-4. **Part 6-7** - Modern frameworks: Full-featured DocMan app with Next.js
+4. **Part 6 & 7** - Modern frameworks: Learning Next.js App Router and React fundamentals
+5. **SprintProject** - Capstone: Full-featured DocMan document management application
 
 **Key Achievements:**
+- Progressed from vanilla HTML/CSS/JS to modern framework patterns
 - Mastered Next.js App Router and TypeScript
-- Built a responsive, mobile-first application
+- Built responsive, mobile-first applications
 - Implemented localStorage persistence with clean abstractions
 - Created markdown editor with real-time preview
 - Delivered a production-ready document management application
