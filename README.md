@@ -34,6 +34,8 @@ A comprehensive sprint showcasing foundational web development projects built wi
 
 **Deployment:** Works anywhere static files are served (GitHub Pages, Netlify, S3, etc). No build step required.
 
+**[View Live Demo](https://pehhalt.github.io/BwAI-sprint1/part3/index.html)**
+
 ---
 
 ## Part 4 - Vanilla Todo Web App
@@ -61,6 +63,8 @@ A comprehensive sprint showcasing foundational web development projects built wi
 - `app.js` - Todo logic and localStorage management
 
 **How it works:** Data automatically syncs to browser storage on every action, so todos persist after page refresh or browser close.
+
+**[View Live Demo](https://pehhalt.github.io/BwAI-sprint1/part4/index.html)**
 
 ---
 
