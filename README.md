@@ -1,6 +1,6 @@
 # Building with AI - Sprint 1 Output
 
-A comprehensive sprint showcasing foundational web development projects built with AI assistance through Claude Code.
+A comprehensive sprint showcasing foundational web development projects built with AI assistance through Claude Code, progressing from static sites to a fully-featured document management application.
 
 ---
 
@@ -64,47 +64,95 @@ A comprehensive sprint showcasing foundational web development projects built wi
 
 ---
 
-## Part 6 - Next.js Document Management App
+## Part 6 - Next.js App Exploration
 
-**Overview:** A modern web application for document management, built with Next.js and React.
-
-- **Technology Stack:**
-  - Next.js 16 with App Router
-  - React 19
-  - TypeScript
-  - Tailwind CSS
-  - Browser localStorage for data persistence
-
-- **Features:**
-  - Create, edit, and delete documents
-  - Navigation bar with Home and About links
-  - Responsive page layout
-  - Client-side routing with Next.js Link component
-  - Type-safe development with TypeScript
-
-**Project Structure:**
-- `/app/layout.tsx` - Root layout with navigation bar
-- `/app/page.tsx` - Home page
-- `/app/about/page.tsx` - About page
-- `/docs/` - Documentation folder
-- `/app/components/` - (reserved for UI components)
-
-**Running the app:** `npm run dev` → runs at http://localhost:3000
-
-**Pages:**
-- `/` - Home page with app title and description
-- `/about` - About page describing the app
-- Navigation bar appears on every page for easy navigation
+Part 6 covers learning Next.js fundamentals with the App Router, which provides the foundation for Part 7.
 
 ---
 
-## Summary
+## SprintProject - DocMan (Parts 6-7)
 
-This sprint demonstrates progression from basic research and static HTML to modern JavaScript frameworks:
+**Overview:** A complete, production-ready document management application demonstrating modern full-stack development with Next.js.
 
-1. **Part 2** - Foundation: Research and learning
+Located in: `sprintproject/docmanapp/`
+
+### Features
+- 📝 **Rich editor** with markdown support (edit/preview toggle)
+- 💾 **Autosave** with visual feedback (Saving... → Saved)
+- 🔍 **Search** documents by title in real-time
+- 📊 **Word count** tracking
+- 📱 **Responsive design** (mobile hamburger menu, desktop side-by-side layout)
+- 🎯 **Direct document links** (`/docs/[id]`)
+- 📋 **Sort** by most recently updated
+- ❌ **Delete** with confirmation
+- 🔤 **Markdown rendering** with styled preview
+- 📄 **DIN A4 width** constraint for document-focused layout
+
+### Technology Stack
+- **Framework:** Next.js 16.2.7 with App Router
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS
+- **Markdown:** react-markdown
+- **Storage:** Browser localStorage (production-ready, IndexedDB migration path available)
+- **State:** React Context + Hooks
+
+### Project Structure
+```
+sprintproject/docmanapp/
+├── app/
+│   ├── layout.tsx              # Root layout
+│   ├── page.tsx                # Home page
+│   └── docs/
+│       ├── layout-content.tsx  # Workspace with sidebar
+│       ├── layout.tsx          # Docs layout wrapper
+│       ├── page.tsx            # Workspace view
+│       └── [id]/page.tsx       # Document editor
+├── lib/
+│   ├── types.ts                # TypeScript interfaces
+│   ├── storage.ts              # localStorage utilities
+│   ├── useDocuments.ts         # Document state hook
+│   ├── useAutosave.ts          # Autosave debouncing
+│   └── DocumentsContext.tsx    # React context
+├── docs/
+│   └── nextjs-app-router-layouts-and-pages.md  # Reference docs
+├── README.md                   # Complete app documentation
+└── REFLECTION.md               # Development insights
+```
+
+### Running the App
+```bash
+cd sprintproject/docmanapp
+npm install
+npm run dev
+# Open http://localhost:3001
+```
+
+### Key Implementation Details
+- **No backend required** - all data persists in browser localStorage
+- **Responsive layout** - fixed A4 width on desktop, full-width on mobile
+- **Keyboard navigation** - Enter in title field moves focus to body
+- **Real-time updates** - document list updates instantly across components
+- **Clean abstractions** - persistence layer easily swappable for IndexedDB
+
+### Optional Feature Implemented
+**Word count** - Real-time word count display in document header for tracking document length.
+
+---
+
+## Sprint Summary
+
+This sprint demonstrates a complete learning progression:
+
+1. **Part 2** - Foundation: Research and profile documentation
 2. **Part 3** - Static sites: Portfolio with vanilla HTML/CSS/JS
 3. **Part 4** - Interactive applications: Todo app with persistence
-4. **Part 6** - Modern frameworks: Next.js with routing and components
+4. **Part 6-7** - Modern frameworks: Full-featured DocMan app with Next.js
 
-Each project builds upon learning from previous parts, showcasing practical web development patterns and best practices with AI-assisted development.
+**Key Achievements:**
+- Mastered Next.js App Router and TypeScript
+- Built a responsive, mobile-first application
+- Implemented localStorage persistence with clean abstractions
+- Created markdown editor with real-time preview
+- Delivered a production-ready document management application
+
+Each project builds upon previous learning, showcasing progressive mastery of web development patterns and best practices with AI-assisted development through Claude Code.
