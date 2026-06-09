@@ -38,6 +38,29 @@ The textarea editor would only show 3 lines of text, refusing to expand to fill 
 
 Created `docs/nextjs-app-router-layouts-and-pages.md` with Next.js 16.2.7 reference. Checked it twice—layout structure and Link component. Beyond that, no other docs were needed. The CLAUDE.md and code comments were sufficient. Docs folder is useful as a trail marker but light in practice for a small app.
 
+## Feature Expansion: Tags
+
+After the core feature set, we added **tags** as an optional feature via a dedicated PR. This involved:
+
+- **Data model:** Extended the Document type with a `tags: string[]` field
+- **UI components:** Tag input with add/remove functionality in the editor; tag pills in the sidebar
+- **Filtering:** Created a filter section that displays all tags and allows clicking to filter the document list
+- **Persistence:** Tags save and restore automatically with documents through the existing storage layer
+
+The tags feature demonstrated how the abstracted storage layer enabled feature additions without modifying core document logic. Tags persist in localStorage like any document property, proving that the persistence design scaled well.
+
+## Feature Expansion: Soft Delete & Trash
+
+Building on the tags feature, we implemented **soft delete with a trash system** to improve data safety:
+
+- **Data model:** Added `isDeleted: boolean` flag to documents; deleted documents move to trash instead of removal
+- **Trash UI:** Separate trash section in the sidebar showing deleted documents
+- **Recovery:** Restore button allows retrieving deleted documents back to the active list
+- **Permanent deletion:** Delete icon in trash permanently removes documents; Empty Trash button bulk-deletes
+- **Bug fix:** Initial implementation had trash delete calling the soft-delete function instead of permanent-delete, creating a modal that did nothing. Fixed by adding a dedicated `permanentlyDeleteDocument` function to the context
+
+The soft delete pattern is a UX best practice that protects users from accidental data loss. By keeping a trash section and requiring an extra step for permanent deletion, users can always recover mistakes. The implementation added complexity (managing isDeleted flag, filtering active vs trash, handling permanent deletion separately) but the safety benefit justified it.
+
 ## Summary
 
-DocMan shipped with full responsive design, autosave, markdown support, word count, and a clean UI. The key lesson: abstract persistence early, check framework docs when stuck, and trust CLAUDE.md's guidance to avoid scope creep. localStorage was the right call for launch; IndexedDB migration is one file away if needed.
+DocMan shipped with full responsive design, autosave, markdown support, word count, and a clean UI. After core features, we added tags for organization and soft delete for data safety. The key lessons: abstract persistence early (tags and trash didn't require storage changes), check framework docs when stuck, trust CLAUDE.md's guidance to avoid scope creep, and prioritize user data safety in the design. localStorage was the right call for launch; IndexedDB migration is one file away if needed.

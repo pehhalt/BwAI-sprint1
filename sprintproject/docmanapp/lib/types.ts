@@ -5,4 +5,6 @@ export interface Document {
   tags: string[];
   updatedAt: number; // timestamp in ms
   createdAt: number; // timestamp in ms
+  isDeleted: boolean;
+  deletedAt?: number; // timestamp when moved to trash
 }

@@ -81,6 +81,8 @@ Located in: `sprintproject/docmanapp/`
 - 💾 **Autosave** with visual feedback (Saving... → Saved)
 - 🔍 **Search** documents by title in real-time
 - 📊 **Word count** tracking
+- 📁 **Tags** - Organize documents with customizable tags, filter by tag in sidebar
+- 🗑️ **Soft delete & Trash** - Move deleted documents to trash, restore them later, or permanently delete
 - 📱 **Responsive design** (mobile hamburger menu, desktop side-by-side layout)
 - 🎯 **Direct document links** (`/docs/[id]`)
 - 📋 **Sort** by most recently updated
@@ -134,8 +136,22 @@ npm run dev
 - **Real-time updates** - document list updates instantly across components
 - **Clean abstractions** - persistence layer easily swappable for IndexedDB
 
-### Optional Feature Implemented
-**Word count** - Real-time word count display in document header for tracking document length.
+### Optional Features Implemented
+
+1. **Word count** - Real-time word count display in document header for tracking document length
+
+2. **Tags** (feature/tags branch) - Organize documents with customizable tags
+   - Add/remove tags from documents in the editor
+   - Filter documents by tag in the sidebar
+   - Tags persist with documents across sessions
+   - Tag suggestions and autocomplete in the tag input
+
+3. **Soft Delete & Trash** (feature/soft-delete-and-trash branch) - Safety-first deletion
+   - Deleted documents move to trash instead of being permanently removed
+   - Restore documents from trash at any time
+   - Separate trash section in the sidebar with restore/permanent delete options
+   - Empty trash to permanently delete all trashed documents at once
+   - Soft delete protects against accidental data loss
 
 ---
 

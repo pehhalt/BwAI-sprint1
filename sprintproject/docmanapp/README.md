@@ -7,9 +7,12 @@ A simple, local-only personal document management app built with Next.js, TypeSc
 DocMan is a minimal document editor that runs entirely in your browser. Write, organize, and save documents locally without any backend server. All data persists in your browser's localStorage.
 
 **Features:**
+
 - 📝 **Rich document editor** with markdown support (edit/preview toggle)
 - 💾 **Autosave** - changes save automatically as you type
 - 🔍 **Search** - filter documents by title in real-time
+- 📁 **Tags** - organize documents with customizable tags and filter by tag
+- 🗑️ **Soft delete & Trash** - deleted documents move to trash, restore or permanently delete anytime
 - 📊 **Word count** - see document statistics at a glance
 - 📱 **Responsive design** - works on desktop, tablet, and mobile
 - 🎯 **Direct document links** - each document has its own URL
@@ -20,6 +23,7 @@ DocMan is a minimal document editor that runs entirely in your browser. Write, o
 ## How to Run
 
 ### Prerequisites
+
 - Node.js 18+
 - npm or yarn
 
@@ -41,11 +45,16 @@ Open [http://localhost:3001](http://localhost:3001) in your browser to use DocMa
 2. **Edit** - Type your title and body content
 3. **Autosave** - Watch for the "Saving..." → "Saved" indicator
 4. **Search** - Use the search box to filter documents by title
-5. **Preview markdown** - Click "Preview" to see formatted markdown output
-6. **Word count** - Check the word count in the header
-7. **Delete** - Hover over a document and click the delete icon (trash)
+5. **Add tags** - Add tags in the editor to organize documents
+6. **Filter by tag** - Click a tag in the sidebar filters section to view documents with that tag
+7. **Preview markdown** - Click "Preview" to see formatted markdown output
+8. **Word count** - Check the word count in the header
+9. **Delete safely** - Click the delete icon to move a document to trash
+10. **Restore** - If you accidentally delete, restore it from the trash section
+11. **Permanent delete** - Click the trash icon in the trash section to permanently delete
 
 ### Keyboard Shortcuts
+
 - **Enter in title field** → Move focus to document body
 
 ## Project Structure
@@ -73,6 +82,7 @@ docs/
 ## Data Persistence
 
 DocMan uses **localStorage** to persist all documents in your browser. This means:
+
 - ✅ Data persists across page reloads
 - ✅ Works completely offline
 - ⚠️ Clearing browser data will delete all documents
@@ -97,10 +107,23 @@ Future migration to IndexedDB is possible without changing the app's UI or logic
 
 ## Optional Features Implemented
 
-**Word Count** - The editor displays a real-time word count in the header. This is useful for:
-- Tracking document length
-- Meeting word count targets
-- Understanding content scope
+1. **Word Count** - The editor displays a real-time word count in the header. Useful for:
+   - Tracking document length
+   - Meeting word count targets
+   - Understanding content scope
+
+2. **Tags** - Organize documents with customizable tags:
+   - Add and remove tags from documents
+   - View all tags used across documents
+   - Filter documents by clicking tags in the sidebar
+   - Tags persist with documents
+
+3. **Soft Delete & Trash** - Safety-first deletion system:
+   - Deleted documents move to trash instead of permanent deletion
+   - Restore documents from trash at any time
+   - Permanently delete from trash when ready
+   - Empty trash to bulk-delete all trashed documents
+   - Protects against accidental data loss
 
 ## Features Completed
 
@@ -112,6 +135,9 @@ Future migration to IndexedDB is possible without changing the app's UI or logic
 ✅ Autosave with visual feedback
 ✅ Document search by title
 ✅ Delete with confirmation
+✅ Soft delete and trash system
+✅ Restore from trash
+✅ Tags system with filtering
 ✅ Markdown edit/preview toggle
 ✅ Word count display
 ✅ Responsive mobile/desktop layout
@@ -122,12 +148,12 @@ Future migration to IndexedDB is possible without changing the app's UI or logic
 ## Next Steps (Future Enhancements)
 
 - [ ] IndexedDB migration for larger storage
-- [ ] Document categories/tags
 - [ ] Export/import functionality
 - [ ] Document history/versioning
 - [ ] Dark mode toggle
 - [ ] Starred/favorite documents
-- [ ] Soft delete with trash
+- [ ] Collaborative editing
+- [ ] Document sharing
 
 ## Development Notes
 

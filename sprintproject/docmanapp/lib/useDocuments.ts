@@ -7,7 +7,10 @@ import {
   getDocumentById,
   createDocument as createDocumentStorage,
   updateDocument as updateDocumentStorage,
-  deleteDocument as deleteDocumentStorage,
+  softDeleteDocument as softDeleteDocumentStorage,
+  restoreDocument as restoreDocumentStorage,
+  permanentlyDeleteDocument as permanentlyDeleteDocumentStorage,
+  emptyTrash as emptyTrashStorage,
 } from './storage';
 
 export function useDocuments() {
@@ -37,11 +40,36 @@ export function useDocuments() {
   };
 
   const deleteDocument = (id: string): boolean => {
-    const success = deleteDocumentStorage(id);
-    if (success) {
+    const deleted = softDeleteDocumentStorage(id);
+    if (deleted) {
+      setDocuments(prev =>
+        prev.map(doc => (doc.id === id ? deleted : doc))
+      );
+    }
+    return deleted !== null;
+  };
+
+  const restoreDocument = (id: string): boolean => {
+    const restored = restoreDocumentStorage(id);
+    if (restored) {
+      setDocuments(prev =>
+        prev.map(doc => (doc.id === id ? restored : doc))
+      );
+    }
+    return restored !== null;
+  };
+
+  const permanentlyDeleteDocument = (id: string): boolean => {
+    const deleted = permanentlyDeleteDocumentStorage(id);
+    if (deleted) {
       setDocuments(prev => prev.filter(doc => doc.id !== id));
     }
-    return success;
+    return deleted !== null;
+  };
+
+  const emptyTrash = (): void => {
+    emptyTrashStorage();
+    setDocuments(prev => prev.filter(doc => !doc.isDeleted));
   };
 
   const getDocument = (id: string): Document | null => {
@@ -58,6 +86,9 @@ export function useDocuments() {
     createDocument,
     updateDocument,
     deleteDocument,
+    permanentlyDeleteDocument,
+    restoreDocument,
+    emptyTrash,
     getDocument,
   };
 }
