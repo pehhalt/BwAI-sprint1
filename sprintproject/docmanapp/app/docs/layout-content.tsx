@@ -152,11 +152,11 @@ export default function DocsLayoutContent({
             <ul className="space-y-2">
               {filteredDocuments.map(doc => (
                 <li key={doc.id} className="group">
-                  <div className="flex flex-col gap-1">
+                  <div className="flex items-center gap-2">
                     <Link
                       href={`/docs/${doc.id}`}
                       onClick={() => setIsSidebarOpen(false)}
-                      className={`block rounded-lg border p-3 transition-colors truncate text-sm ${
+                      className={`flex-1 block rounded-lg border p-3 transition-colors truncate text-sm ${
                         currentDocId === doc.id
                           ? 'border-slate-300 bg-white text-slate-900 font-medium'
                           : 'border-transparent text-slate-900 hover:bg-white hover:border-slate-200'
@@ -164,23 +164,9 @@ export default function DocsLayoutContent({
                     >
                       {doc.title || 'Untitled'}
                     </Link>
-                    {(doc.tags || []).length > 0 && (
-                      <div className="px-3 flex flex-wrap gap-1">
-                        {doc.tags.map(tag => (
-                          <span
-                            key={tag}
-                            className="inline-text-xs px-1.5 py-0.5 bg-slate-200 text-slate-700 rounded text-xs"
-                          >
-                            #{tag}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                  <div className="flex items-center gap-2 px-3">
                     <button
                       onClick={e => handleDeleteClick(e, doc.id)}
-                      className="mr-2 p-1 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors opacity-0 group-hover:opacity-100"
+                      className="p-1 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors opacity-0 group-hover:opacity-100"
                       title="Delete document"
                     >
                       <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -188,6 +174,18 @@ export default function DocsLayoutContent({
                       </svg>
                     </button>
                   </div>
+                  {(doc.tags || []).length > 0 && (
+                    <div className="ml-3 flex flex-wrap gap-1">
+                      {doc.tags.map(tag => (
+                        <span
+                          key={tag}
+                          className="inline-block px-1.5 py-0.5 bg-slate-200 text-slate-700 rounded text-xs"
+                        >
+                          #{tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </li>
               ))}
             </ul>
