@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
@@ -17,8 +17,11 @@ export default function DocumentPage() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
+  const [tags, setTags] = useState<string[]>([]);
+  const [tagInput, setTagInput] = useState('');
   const [isPreview, setIsPreview] = useState(false);
   const bodyTextareaRef = useRef<HTMLTextAreaElement>(null);
+  const tagInputRef = useRef<HTMLInputElement>(null);
 
   const titleStatus = useAutosave(title, (newTitle) => {
     updateDocument(documentId, { title: newTitle });
@@ -28,12 +31,17 @@ export default function DocumentPage() {
     updateDocument(documentId, { body: newBody });
   });
 
+  const tagsStatus = useAutosave(JSON.stringify(tags), () => {
+    updateDocument(documentId, { tags });
+  });
+
   useEffect(() => {
     const doc = getDocument(documentId);
     if (doc) {
       setDocument(doc);
       setTitle(doc.title);
       setBody(doc.body);
+      setTags(doc.tags || []);
     }
     setIsLoaded(true);
   }, [documentId, getDocument]);
@@ -46,8 +54,21 @@ export default function DocumentPage() {
     setBody(newBody);
   };
 
-  const saveStatus = titleStatus === 'saving' || bodyStatus === 'saving' ? 'saving' :
-                     titleStatus === 'saved' || bodyStatus === 'saved' ? 'saved' : 'idle';
+  const handleAddTag = () => {
+    const trimmedTag = tagInput.trim().toLowerCase();
+    if (trimmedTag && !tags.includes(trimmedTag)) {
+      const newTags = [...tags, trimmedTag];
+      setTags(newTags);
+      setTagInput('');
+    }
+  };
+
+  const handleRemoveTag = (tagToRemove: string) => {
+    setTags(tags.filter(tag => tag !== tagToRemove));
+  };
+
+  const saveStatus = titleStatus === 'saving' || bodyStatus === 'saving' || tagsStatus === 'saving' ? 'saving' :
+                     titleStatus === 'saved' || bodyStatus === 'saved' || tagsStatus === 'saved' ? 'saved' : 'idle';
 
   const wordCount = body.trim().split(/\s+/).filter(word => word.length > 0).length;
 
@@ -83,8 +104,8 @@ export default function DocumentPage() {
   return (
     <div className="flex flex-1 flex-col overflow-hidden">
       {/* Title field with autosave indicator and preview toggle */}
-      <div className="border-b border-slate-200 bg-white px-3 py-3 md:px-6 md:py-4">
-        <div className="flex items-center justify-between gap-2 md:gap-4 mb-2">
+      <div className="border-b border-slate-200 bg-white px-3 py-3 md:px-6 md:py-4 space-y-3">
+        <div className="flex items-center justify-between gap-2 md:gap-4">
           <input
             type="text"
             value={title}
@@ -113,6 +134,55 @@ export default function DocumentPage() {
               </span>
             </div>
           </div>
+        </div>
+
+        {/* Tags section */}
+        <div className="space-y-2">
+          <div className="flex gap-2">
+            <input
+              ref={tagInputRef}
+              type="text"
+              value={tagInput}
+              onChange={e => setTagInput(e.target.value)}
+              onKeyDown={e => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  handleAddTag();
+                }
+              }}
+              onFocus={() => {
+                setTimeout(() => {
+                  tagInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 100);
+              }}
+              placeholder="Add a tag (press Enter)"
+              className="flex-1 px-2 py-1 text-xs md:text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900"
+            />
+            <button
+              onClick={handleAddTag}
+              className="px-3 py-1 text-xs md:text-sm font-medium text-slate-600 hover:text-slate-900 border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors"
+            >
+              Add
+            </button>
+          </div>
+          {tags.length > 0 && (
+            <div className="flex flex-wrap gap-2">
+              {tags.map(tag => (
+                <span
+                  key={tag}
+                  className="inline-flex items-center gap-1 px-2 py-1 bg-slate-200 text-slate-700 text-xs rounded-full"
+                >
+                  #{tag}
+                  <button
+                    onClick={() => handleRemoveTag(tag)}
+                    className="text-slate-600 hover:text-slate-900 transition-colors"
+                  >
+                    ✕
+                  </button>
+                </span>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 

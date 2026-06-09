@@ -26,6 +26,7 @@ function createDocument(title: string = 'Untitled'): Document {
     id,
     title,
     body: '',
+    tags: [],
     createdAt: now,
     updatedAt: now,
   };
