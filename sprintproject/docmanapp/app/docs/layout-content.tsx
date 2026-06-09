@@ -10,7 +10,7 @@ export default function DocsLayoutContent({
 }: {
   children: React.ReactNode;
 }) {
-  const { documents, isLoaded, createDocument, deleteDocument, restoreDocument, emptyTrash } = useDocumentsContext();
+  const { documents, isLoaded, createDocument, deleteDocument, permanentlyDeleteDocument, restoreDocument, emptyTrash } = useDocumentsContext();
   const pathname = usePathname();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
@@ -40,15 +40,28 @@ export default function DocsLayoutContent({
     return matchesSearch && matchesTag;
   });
 
+  const [permanentDeleteId, setPermanentDeleteId] = useState<string | null>(null);
+
   const handleDeleteClick = (e: React.MouseEvent, docId: string) => {
     e.preventDefault();
     e.stopPropagation();
     setDeleteConfirmId(docId);
   };
 
+  const handlePermanentDeleteClick = (e: React.MouseEvent, docId: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setPermanentDeleteId(docId);
+  };
+
   const handleConfirmDelete = (docId: string) => {
     deleteDocument(docId);
     setDeleteConfirmId(null);
+  };
+
+  const handleConfirmPermanentDelete = (docId: string) => {
+    permanentlyDeleteDocument(docId);
+    setPermanentDeleteId(null);
   };
 
   return (
@@ -225,7 +238,7 @@ export default function DocsLayoutContent({
                         </svg>
                       </button>
                       <button
-                        onClick={e => handleDeleteClick(e, doc.id)}
+                        onClick={e => handlePermanentDeleteClick(e, doc.id)}
                         className="p-1 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors"
                         title="Delete permanently"
                       >
@@ -245,13 +258,13 @@ export default function DocsLayoutContent({
         <main className="flex-1 overflow-hidden w-full md:w-auto">{children}</main>
       </div>
 
-      {/* Delete confirmation modal */}
-      {deleteConfirmId && (
+      {/* Delete confirmation modal (move to trash) */}
+      {deleteConfirmId && !documents.find(d => d.id === deleteConfirmId)?.isDeleted && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg shadow-lg p-6 max-w-sm mx-4">
-            <h3 className="text-lg font-semibold text-slate-900 mb-2">Delete document?</h3>
+            <h3 className="text-lg font-semibold text-slate-900 mb-2">Move to trash?</h3>
             <p className="text-slate-600 mb-6">
-              This action cannot be undone. The document will be permanently deleted.
+              This document will be moved to trash. You can restore it later.
             </p>
             <div className="flex gap-3 justify-end">
               <button
@@ -264,7 +277,33 @@ export default function DocsLayoutContent({
                 onClick={() => handleConfirmDelete(deleteConfirmId)}
                 className="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 transition-colors"
               >
-                Delete
+                Move to Trash
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Permanent delete confirmation modal */}
+      {permanentDeleteId && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg shadow-lg p-6 max-w-sm mx-4">
+            <h3 className="text-lg font-semibold text-slate-900 mb-2">Permanently delete?</h3>
+            <p className="text-slate-600 mb-6">
+              This action cannot be undone. The document will be permanently deleted.
+            </p>
+            <div className="flex gap-3 justify-end">
+              <button
+                onClick={() => setPermanentDeleteId(null)}
+                className="px-4 py-2 rounded-lg border border-slate-300 text-slate-900 hover:bg-slate-50 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => handleConfirmPermanentDelete(permanentDeleteId)}
+                className="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 transition-colors"
+              >
+                Permanently Delete
               </button>
             </div>
           </div>

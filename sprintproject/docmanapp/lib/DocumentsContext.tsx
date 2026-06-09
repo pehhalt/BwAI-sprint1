@@ -10,6 +10,7 @@ interface DocumentsContextType {
   createDocument: (title?: string) => Document;
   updateDocument: (id: string, updates: Partial<Omit<Document, 'id' | 'createdAt'>>) => Document | null;
   deleteDocument: (id: string) => boolean;
+  permanentlyDeleteDocument: (id: string) => boolean;
   restoreDocument: (id: string) => boolean;
   emptyTrash: () => void;
   getDocument: (id: string) => Document | null;

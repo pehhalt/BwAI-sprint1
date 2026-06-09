@@ -59,6 +59,14 @@ export function useDocuments() {
     return restored !== null;
   };
 
+  const permanentlyDeleteDocument = (id: string): boolean => {
+    const deleted = permanentlyDeleteDocumentStorage(id);
+    if (deleted) {
+      setDocuments(prev => prev.filter(doc => doc.id !== id));
+    }
+    return deleted !== null;
+  };
+
   const emptyTrash = (): void => {
     emptyTrashStorage();
     setDocuments(prev => prev.filter(doc => !doc.isDeleted));
@@ -78,6 +86,7 @@ export function useDocuments() {
     createDocument,
     updateDocument,
     deleteDocument,
+    permanentlyDeleteDocument,
     restoreDocument,
     emptyTrash,
     getDocument,
