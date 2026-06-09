@@ -13,6 +13,7 @@ export default function DocsLayoutContent({
   const { documents, isLoaded, createDocument, deleteDocument } = useDocumentsContext();
   const pathname = usePathname();
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -27,9 +28,13 @@ export default function DocsLayoutContent({
 
   const currentDocId = getCurrentDocId();
 
-  const filteredDocuments = documents.filter(doc =>
-    doc.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const allTags = Array.from(new Set(documents.flatMap(doc => doc.tags || [])));
+
+  const filteredDocuments = documents.filter(doc => {
+    const matchesSearch = doc.title.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesTag = selectedTag ? (doc.tags || []).includes(selectedTag) : true;
+    return matchesSearch && matchesTag;
+  });
 
   const handleDeleteClick = (e: React.MouseEvent, docId: string) => {
     e.preventDefault();
@@ -103,6 +108,33 @@ export default function DocsLayoutContent({
             />
           </div>
 
+          {/* Tag filter */}
+          {allTags.length > 0 && (
+            <div className="mb-3 space-y-2">
+              <p className="text-xs font-semibold text-slate-600">Filters:</p>
+              <div className="flex flex-wrap gap-1">
+                {selectedTag && (
+                  <button
+                    onClick={() => setSelectedTag(null)}
+                    className="inline-flex items-center gap-1 px-2 py-1 bg-slate-900 text-white text-xs rounded-full hover:bg-slate-800 transition-colors"
+                  >
+                    #{selectedTag}
+                    <span>✕</span>
+                  </button>
+                )}
+                {allTags.filter(tag => tag !== selectedTag).map(tag => (
+                  <button
+                    key={tag}
+                    onClick={() => setSelectedTag(tag)}
+                    className="px-2 py-1 bg-slate-200 text-slate-700 text-xs rounded-full hover:bg-slate-300 transition-colors"
+                  >
+                    #{tag}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Document list */}
           {!isLoaded ? (
             <div className="text-center py-8">
@@ -114,17 +146,17 @@ export default function DocsLayoutContent({
             </div>
           ) : filteredDocuments.length === 0 ? (
             <div className="text-center py-8">
-              <p className="text-slate-500 text-sm">No results for "{searchQuery}"</p>
+              <p className="text-slate-500 text-sm">No results {selectedTag ? `for #${selectedTag}` : `for "${searchQuery}"`}</p>
             </div>
           ) : (
             <ul className="space-y-2">
               {filteredDocuments.map(doc => (
                 <li key={doc.id} className="group">
-                  <div className="flex items-center gap-2">
+                  <div className="flex flex-col gap-1">
                     <Link
                       href={`/docs/${doc.id}`}
                       onClick={() => setIsSidebarOpen(false)}
-                      className={`flex-1 block rounded-lg border p-3 transition-colors truncate text-sm ${
+                      className={`block rounded-lg border p-3 transition-colors truncate text-sm ${
                         currentDocId === doc.id
                           ? 'border-slate-300 bg-white text-slate-900 font-medium'
                           : 'border-transparent text-slate-900 hover:bg-white hover:border-slate-200'
@@ -132,6 +164,20 @@ export default function DocsLayoutContent({
                     >
                       {doc.title || 'Untitled'}
                     </Link>
+                    {(doc.tags || []).length > 0 && (
+                      <div className="px-3 flex flex-wrap gap-1">
+                        {doc.tags.map(tag => (
+                          <span
+                            key={tag}
+                            className="inline-text-xs px-1.5 py-0.5 bg-slate-200 text-slate-700 rounded text-xs"
+                          >
+                            #{tag}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-2 px-3">
                     <button
                       onClick={e => handleDeleteClick(e, doc.id)}
                       className="mr-2 p-1 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors opacity-0 group-hover:opacity-100"
