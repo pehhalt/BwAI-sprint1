@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
@@ -21,6 +21,7 @@ export default function DocumentPage() {
   const [tagInput, setTagInput] = useState('');
   const [isPreview, setIsPreview] = useState(false);
   const bodyTextareaRef = useRef<HTMLTextAreaElement>(null);
+  const tagInputRef = useRef<HTMLInputElement>(null);
 
   const titleStatus = useAutosave(title, (newTitle) => {
     updateDocument(documentId, { title: newTitle });
@@ -139,6 +140,7 @@ export default function DocumentPage() {
         <div className="space-y-2">
           <div className="flex gap-2">
             <input
+              ref={tagInputRef}
               type="text"
               value={tagInput}
               onChange={e => setTagInput(e.target.value)}
@@ -147,6 +149,11 @@ export default function DocumentPage() {
                   e.preventDefault();
                   handleAddTag();
                 }
+              }}
+              onFocus={() => {
+                setTimeout(() => {
+                  tagInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 100);
               }}
               placeholder="Add a tag (press Enter)"
               className="flex-1 px-2 py-1 text-xs md:text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900"

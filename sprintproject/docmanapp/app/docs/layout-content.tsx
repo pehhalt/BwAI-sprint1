@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useDocumentsContext } from '@/lib/DocumentsContext';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -16,6 +16,7 @@ export default function DocsLayoutContent({
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const tagInputRef = useRef<HTMLInputElement>(null);
 
   const handleNewDocument = () => {
     createDocument();
