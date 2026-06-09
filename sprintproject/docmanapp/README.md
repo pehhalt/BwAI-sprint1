@@ -7,6 +7,7 @@ A simple, local-only personal document management app built with Next.js, TypeSc
 DocMan is a minimal document editor that runs entirely in your browser. Write, organize, and save documents locally without any backend server. All data persists in your browser's localStorage.
 
 **Features:**
+
 - 📝 **Rich document editor** with markdown support (edit/preview toggle)
 - 💾 **Autosave** - changes save automatically as you type
 - 🔍 **Search** - filter documents by title in real-time
@@ -22,6 +23,7 @@ DocMan is a minimal document editor that runs entirely in your browser. Write, o
 ## How to Run
 
 ### Prerequisites
+
 - Node.js 18+
 - npm or yarn
 
@@ -52,6 +54,7 @@ Open [http://localhost:3001](http://localhost:3001) in your browser to use DocMa
 11. **Permanent delete** - Click the trash icon in the trash section to permanently delete
 
 ### Keyboard Shortcuts
+
 - **Enter in title field** → Move focus to document body
 
 ## Project Structure
@@ -79,6 +82,7 @@ docs/
 ## Data Persistence
 
 DocMan uses **localStorage** to persist all documents in your browser. This means:
+
 - ✅ Data persists across page reloads
 - ✅ Works completely offline
 - ⚠️ Clearing browser data will delete all documents
