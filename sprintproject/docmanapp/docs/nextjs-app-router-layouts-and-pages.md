@@ -37,6 +37,7 @@ export default function RootLayout({
 ```
 
 **Root layout requirements:**
+
 - Must be at the root of the `app` directory
 - Must contain `<html>` and `<body>` tags
 - Required for every Next.js app
@@ -82,6 +83,7 @@ export default function Page() {
 ```
 
 **Link component benefits:**
+
 - Client-side navigation (faster than full page reload)
 - Prefetching in production (loads linked routes in background)
 - Passing `className`, `id`, and other HTML attributes works normally
