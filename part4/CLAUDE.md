@@ -17,6 +17,7 @@ part4/
 ## Architecture
 
 ### Static Files Only
+
 - **index.html:** Minimal HTML scaffold with input form and todo list container
 - **style.css:** Complete styling including responsive design
 - **app.js:** Todo management logic with localStorage persistence
@@ -36,6 +37,7 @@ part4/
 ## Features
 
 ### Core Functionality
+
 - **Add Todo:** Input field + button or Enter key
 - **Toggle Complete:** Click checkbox to mark done/undone
 - **Delete Todo:** Remove individual todos
@@ -112,6 +114,7 @@ For larger apps, consider IndexedDB instead.
 ## Common Enhancements (No Frameworks)
 
 Keep these in mind if extending:
+
 - Add `filter` buttons (All, Active, Completed) with localStorage of current filter
 - Add `localStorage` export/import via JSON file download
 - Add categories/tags with simple select dropdown
@@ -122,6 +125,7 @@ Keep these in mind if extending:
 ## File Size Budget
 
 Target < 30KB total uncompressed:
+
 - `index.html`: ~1-2KB
 - `style.css`: ~5-8KB
 - `app.js`: ~3-5KB
@@ -132,11 +136,13 @@ No images, no external resources. Everything is text.
 ## Deployment
 
 ### As Static Files
+
 1. Upload three files to web server
 2. No special config needed
 3. Works on GitHub Pages, Netlify, S3, etc.
 
 ### Local Testing
+
 1. Open `index.html` in browser (file:// protocol works)
 2. Or serve locally with `python -m http.server` or similar
 3. localStorage works in both cases
