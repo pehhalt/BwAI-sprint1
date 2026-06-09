@@ -10,7 +10,7 @@ export default function DocsLayoutContent({
 }: {
   children: React.ReactNode;
 }) {
-  const { documents, isLoaded, createDocument, deleteDocument } = useDocumentsContext();
+  const { documents, isLoaded, createDocument, deleteDocument, restoreDocument, emptyTrash } = useDocumentsContext();
   const pathname = usePathname();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
@@ -29,9 +29,12 @@ export default function DocsLayoutContent({
 
   const currentDocId = getCurrentDocId();
 
-  const allTags = Array.from(new Set(documents.flatMap(doc => doc.tags || [])));
+  const activeDocuments = documents.filter(doc => !doc.isDeleted);
+  const trashedDocuments = documents.filter(doc => doc.isDeleted);
 
-  const filteredDocuments = documents.filter(doc => {
+  const allTags = Array.from(new Set(activeDocuments.flatMap(doc => doc.tags || [])));
+
+  const filteredDocuments = activeDocuments.filter(doc => {
     const matchesSearch = doc.title.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesTag = selectedTag ? (doc.tags || []).includes(selectedTag) : true;
     return matchesSearch && matchesTag;
@@ -141,7 +144,7 @@ export default function DocsLayoutContent({
             <div className="text-center py-8">
               <p className="text-slate-500 text-sm">Loading...</p>
             </div>
-          ) : documents.length === 0 ? (
+          ) : activeDocuments.length === 0 ? (
             <div className="text-center py-8">
               <p className="text-slate-500 text-sm">No documents yet</p>
             </div>
@@ -190,6 +193,51 @@ export default function DocsLayoutContent({
                 </li>
               ))}
             </ul>
+          )}
+
+          {/* Trash section */}
+          {trashedDocuments.length > 0 && (
+            <div className="mt-6 pt-6 border-t border-slate-300">
+              <div className="flex items-center justify-between mb-3">
+                <p className="text-xs font-semibold text-slate-600">🗑️ TRASH</p>
+                <button
+                  onClick={emptyTrash}
+                  className="text-xs text-slate-500 hover:text-red-600 transition-colors"
+                  title="Permanently delete all items in trash"
+                >
+                  Empty
+                </button>
+              </div>
+              <ul className="space-y-2">
+                {trashedDocuments.map(doc => (
+                  <li key={doc.id} className="group">
+                    <div className="flex items-center gap-2">
+                      <div className="flex-1 rounded-lg border border-slate-200 p-3 text-sm text-slate-600 truncate opacity-60">
+                        {doc.title || 'Untitled'}
+                      </div>
+                      <button
+                        onClick={() => restoreDocument(doc.id)}
+                        className="p-1 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded transition-colors"
+                        title="Restore document"
+                      >
+                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 5V4a1 1 0 01-1-1zm.008 9a1 1 0 011.992 0A5.002 5.002 0 0014.001 15v1a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 11 1.885-.666A5.002 5.002 0 01 4.01 11z" clipRule="evenodd" />
+                        </svg>
+                      </button>
+                      <button
+                        onClick={e => handleDeleteClick(e, doc.id)}
+                        className="p-1 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors"
+                        title="Delete permanently"
+                      >
+                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
+                        </svg>
+                      </button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
           )}
         </aside>
 

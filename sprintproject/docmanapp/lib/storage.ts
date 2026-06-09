@@ -27,6 +27,7 @@ function createDocument(title: string = 'Untitled'): Document {
     title,
     body: '',
     tags: [],
+    isDeleted: false,
     createdAt: now,
     updatedAt: now,
   };
@@ -57,7 +58,47 @@ function updateDocument(id: string, updates: Partial<Omit<Document, 'id' | 'crea
   return updated;
 }
 
-function deleteDocument(id: string): boolean {
+function softDeleteDocument(id: string): Document | null {
+  const docs = getAllDocuments();
+  const docIndex = docs.findIndex(doc => doc.id === id);
+
+  if (docIndex === -1) return null;
+
+  const doc = docs[docIndex];
+  const deleted: Document = {
+    ...doc,
+    isDeleted: true,
+    deletedAt: Date.now(),
+    updatedAt: Date.now(),
+  };
+
+  docs[docIndex] = deleted;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(docs));
+
+  return deleted;
+}
+
+function restoreDocument(id: string): Document | null {
+  const docs = getAllDocuments();
+  const docIndex = docs.findIndex(doc => doc.id === id);
+
+  if (docIndex === -1) return null;
+
+  const doc = docs[docIndex];
+  const restored: Document = {
+    ...doc,
+    isDeleted: false,
+    deletedAt: undefined,
+    updatedAt: Date.now(),
+  };
+
+  docs[docIndex] = restored;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(docs));
+
+  return restored;
+}
+
+function permanentlyDeleteDocument(id: string): boolean {
   const docs = getAllDocuments();
   const filtered = docs.filter(doc => doc.id !== id);
 
@@ -67,4 +108,10 @@ function deleteDocument(id: string): boolean {
   return true;
 }
 
-export { getAllDocuments, getDocumentById, createDocument, updateDocument, deleteDocument };
+function emptyTrash(): void {
+  const docs = getAllDocuments();
+  const active = docs.filter(doc => !doc.isDeleted);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(active));
+}
+
+export { getAllDocuments, getDocumentById, createDocument, updateDocument, softDeleteDocument, restoreDocument, permanentlyDeleteDocument, emptyTrash };
